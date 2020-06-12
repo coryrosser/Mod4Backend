@@ -9,6 +9,7 @@ class UsersController < ApplicationController
 
     def create
         @user = User.create(user_params)
+        byebug
         if @user.persisted?
             render :json => @user, include: [:projects,:friends,:comments], status: :created
         else
