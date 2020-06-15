@@ -4,7 +4,13 @@ class ProjectsController < ApplicationController
     def index
         @project = Project.all
         # include the projecting spots the project belongs to
-        render :json => @project, include: [:user,:pictures], status: :ok
+        render :json => @project, 
+        include: [user:{
+                except: [:id,:created_at, :updated_at, :password_digest]
+                },
+            pictures:{
+                except: [:id,:created_at, :updated_at]
+                }], status: :ok
     end
 
     def create

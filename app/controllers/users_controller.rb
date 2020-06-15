@@ -3,23 +3,27 @@ class UsersController < ApplicationController
 
     def index
         @user = User.all
-        # include the usering spots the user belongs to
-        render :json => @user, include: [:projects,:friends,:comments], status: :ok
+        render :json => @user.as_json(only: [:id,:name,:username,:bio,:img], 
+        include: [projects:{
+            except: [:id,:created_at, :updated_at]
+            },
+            friends:{
+                except: [:id,:created_at, :updated_at]
+            },
+            comments:{
+            except: [:id,:created_at, :updated_at]
+            }]), status: :ok
     end
 
     def create
         @user = User.create(user_params)
-        byebug
-        if @user.persisted?
-            render :json => @user, include: [:projects,:friends,:comments], status: :created
-        else
-            render :json => { errors: @user.errors }
-        end
+        token = JWT.encode({ user_id: @user.id }, ENV['HKEY'])
+        render :json => { token: token, user:@user.as_json(only: [:name,:username,:bio,:img], include: [:projects,:friends,:comments])}, :status => :ok
     end
 
     def show
         if @user
-            render :json => @user
+            render :json => @user.as_json(only: [:name,:username,:bio,:img])
         else
             render :json => {error: 'User not found'}, status: :not_found
         end
@@ -43,7 +47,7 @@ class UsersController < ApplicationController
 
     private
     def user_params
-        params.require(:user).permit(:name,:username,:bio,:img)
+        params.require(:user).permit(:name, :username, :bio, :img, :password)
     end
 
     def find_user

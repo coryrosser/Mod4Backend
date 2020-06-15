@@ -11,8 +11,8 @@ Project.destroy_all
 Picture.destroy_all
 Comment.destroy_all
 
-u1 = User.create(name:"Geoffrey", username:"StupendousOne", bio:"A bio", img:"https://scontent.faus1-1.fna.fbcdn.net/v/t31.0-8/18922546_10211466020541206_2128325124362336323_o.jpg?_nc_cat=111&_nc_sid=cdbe9c&_nc_ohc=st81JiuXpe4AX-3Eacn&_nc_ht=scontent.faus1-1.fna&oh=3f916555b98be15bbb4eb34b245df51c&oe=5F0ABBC3")
-u2 = User.create(name:"Cory", username:"Bid Dawg", bio:"A better bio", img:"https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic26.jpg")
+u1 = User.create(name:"Geoffrey", username:"StupendousOne", bio:"A bio", img:"https://scontent.faus1-1.fna.fbcdn.net/v/t31.0-8/18922546_10211466020541206_2128325124362336323_o.jpg?_nc_cat=111&_nc_sid=cdbe9c&_nc_ohc=st81JiuXpe4AX-3Eacn&_nc_ht=scontent.faus1-1.fna&oh=3f916555b98be15bbb4eb34b245df51c&oe=5F0ABBC3", password: "123")
+u2 = User.create(name:"Cory", username:"Big Dawg", bio:"A better bio", img:"https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic26.jpg", password:"456")
 
 p1 = Project.create(name:"Mod1", desc:"A desc", user_id:u1.id)
 p2 = Project.create(name:"Mod2", desc:"Another desc", user_id:u2.id)

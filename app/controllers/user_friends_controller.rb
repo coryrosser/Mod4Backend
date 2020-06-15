@@ -10,7 +10,14 @@ class UserFriendsController < ApplicationController
     def create
         @user_friend = UserFriend.create(user_friend_params)
         if @user_friend.persisted?
-            render :json => @user_friend, include: [:user,:friend], status: :created
+            render :json => @user_friend, 
+                include: [
+                    user{
+                        except: [:id,:created_at, :updated_at]
+                        },
+                    friend:{
+                        except: [:id,:created_at, :updated_at]
+                        }], status: :created
         else
             render :json => { errors: @user_friend.errors }
         end

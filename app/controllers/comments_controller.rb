@@ -4,7 +4,14 @@ class CommentsController < ApplicationController
     def index
         @comment = Comment.all
         # include the commenting spots the comment belongs to
-        render :json => @comment, include: [:commented_project,:commenter], status: :ok
+        render :json => @comment, 
+            include: [
+                commented_project:{
+                    except: [:id,:created_at, :updated_at]
+                    },
+                commenter:{
+                    except: [:id,:created_at, :updated_at]
+                    }], status: :ok
     end
 
     def create
