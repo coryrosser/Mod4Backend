@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
     def index
         @user = User.all
-        render :json => @user.as_json(only: [:id,:name,:username,:bio,:img], 
+        render :json => @user.as_json(only: [:banner_img,:name,:username,:bio,:img], 
         include: [projects:{
             except: [:id,:created_at, :updated_at]
             },
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
 
     private
     def user_params
-        params.require(:user).permit(:name, :username, :bio, :img, :password)
+        params.require(:user).permit(:name, :username, :bio, :img, :password, :banner_img)
     end
 
     def find_user

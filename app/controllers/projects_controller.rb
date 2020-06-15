@@ -48,7 +48,7 @@ class ProjectsController < ApplicationController
 
     private
     def project_params
-        params.require(:project).permit(:name,:user_id,:desc,:video,:link)
+        params.require(:project).permit(:name,:user_id,:desc,:video,:link,:img)
     end
 
     def find_project
