@@ -1,11 +1,10 @@
-class Api::V1::SessionsController < ApplicationController
+class SessionsController < ApplicationController
 
     def create
       @user = User.find_by(username: session_params[:username])
-  
       if @user && @user.authenticate(session_params[:password])
         token = JWT.encode({ user_id: @user.id }, ENV['HKEY'])
-        render :json => { token: token }, :status => :ok
+        render :json => { token: token, user:@user.as_json(only: [:name,:username,:bio,:img], include: [:projects,:friends,:comments]) }, :status => :ok
       else
         render :json => { "msg" => "Something went wrong" }, :status => :bad_request
       end

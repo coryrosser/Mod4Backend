@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     def create
         @user = User.create(user_params)
         token = JWT.encode({ user_id: @user.id }, ENV['HKEY'])
-        render :json => { token: token }, :status => :ok
+        render :json => { token: token, user:@user.as_json(only: [:name,:username,:bio,:img], include: [:projects,:friends,:comments])}, :status => :ok
     end
 
     def show
