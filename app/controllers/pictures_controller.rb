@@ -4,7 +4,10 @@ class PicturesController < ApplicationController
     def index
         @picture = Picture.all
         # include the pictureing spots the picture belongs to
-        render :json => @picture, include: :project, status: :ok
+        render :json => @picture, 
+            include: project:{
+                except: [:id,:created_at, :updated_at]
+                }, status: :ok
     end
 
     def create

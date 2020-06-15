@@ -6,4 +6,5 @@ class User < ApplicationRecord
     has_many :commented_projects, through: :comments
 
     has_secure_password
+    validates :username, uniqueness: true
 end

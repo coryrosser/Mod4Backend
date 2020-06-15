@@ -3,7 +3,16 @@ class UsersController < ApplicationController
 
     def index
         @user = User.all
-        render :json => @user.as_json(only: [:name,:username,:bio,:img], include: [:projects,:friends,:comments]), status: :ok
+        render :json => @user.as_json(only: [:id,:name,:username,:bio,:img], 
+        include: [projects:{
+            except: [:id,:created_at, :updated_at]
+            },
+            friends:{
+                except: [:id,:created_at, :updated_at]
+            },
+            comments:{
+            except: [:id,:created_at, :updated_at]
+            }]), status: :ok
     end
 
     def create
