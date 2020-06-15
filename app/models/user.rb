@@ -4,4 +4,6 @@ class User < ApplicationRecord
     has_many :friends, through: :user_friends
     has_many :comments, dependent: :destroy
     has_many :commented_projects, through: :comments
+
+    has_secure_password
 end
