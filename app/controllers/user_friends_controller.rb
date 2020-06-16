@@ -1,5 +1,5 @@
 class UserFriendsController < ApplicationController
-    before_action :find_user_friend, only: [:show, :update, :destroy]
+    before_action :find_user_friend, only: [:show, :destroy]
 
     def index
         @user_friend = UserFriend.all
@@ -36,7 +36,14 @@ class UserFriendsController < ApplicationController
     end
 
     def update
-        @user_friend.update(user_friend_params)
+        user_id = User.find_by(username: user_friend_params["user_username"]).id
+        friend_id = User.find_by(username: user_friend_params["friend_username"]).id
+        @user_friend = UserFriend.all.find{|uf| uf.user_id == user_id && uf.friend_id == friend_id}
+        final_params = {}
+        final_params[:user_id] = user_id
+        final_params[:friend_id] = friend_id
+        final_params[:accepted] = user_friend_params["accepted"]
+        @user_friend.update(final_params)
         if @user_friend.persisted?
             render :json => @user_friend, status: :ok
         else

@@ -14,7 +14,14 @@ class ProjectsController < ApplicationController
     end
 
     def create
-        @project = Project.create(project_params)
+        final_params={}
+        final_params[:user_id] = User.find_by(username: project_params["username"]).id
+        final_params[:name] = project_params["name"]
+        final_params[:desc] = project_params["desc"]
+        final_params[:video] = project_params["video"]
+        final_params[:link] = project_params["link"]
+        final_params[:img] = project_params["img"]
+        @project = Project.create(final_params)
         if @project.persisted?
             render :json => @project, include: [:user,:pictures], status: :created
         else
@@ -48,7 +55,7 @@ class ProjectsController < ApplicationController
 
     private
     def project_params
-        params.require(:project).permit(:name,:user_id,:desc,:video,:link,:img)
+        params.require(:project).permit(:name,:username,:desc,:video,:link,:img)
     end
 
     def find_project
