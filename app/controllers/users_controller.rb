@@ -8,7 +8,10 @@ class UsersController < ApplicationController
             except: [:id,:created_at, :updated_at]
             },
             friends:{
-                except: [:id,:created_at, :updated_at]
+                except: [:id,:created_at, :updated_at],
+            },
+            pending_friends:{
+                except: [:id,:created_at, :updated_at],
             },
             comments:{
             except: [:id,:created_at, :updated_at]

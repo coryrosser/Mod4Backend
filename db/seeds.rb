@@ -37,5 +37,5 @@ Picture.create(img:"img6.html", project_id:p2.id)
 Picture.create(img:"img7.html", project_id:p3.id)
 Picture.create(img:"img8.html", project_id:p4.id)
 
-UserFriend.create(user_id:u1.id, friend_id:u2.id)
-UserFriend.create(user_id:u2.id, friend_id:u1.id)
+UserFriend.create(user_id:u1.id, friend_id:u2.id, accepted: true)
+UserFriend.create(user_id:u2.id, friend_id:u1.id, accepted: true)

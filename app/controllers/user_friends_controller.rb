@@ -8,11 +8,15 @@ class UserFriendsController < ApplicationController
     end
 
     def create
-        @user_friend = UserFriend.create(user_friend_params)
+        final_params={}
+        final_params[:user_id] = User.find_by(username: user_friend_params["user_username"]).id
+        final_params[:friend_id] = User.find_by(username: user_friend_params["friend_username"]).id
+        final_params[:accepted] = user_friend_params["accepted"]
+        @user_friend = UserFriend.create(final_params)
         if @user_friend.persisted?
             render :json => @user_friend, 
                 include: [
-                    user{
+                    user:{
                         except: [:id,:created_at, :updated_at]
                         },
                     friend:{
@@ -49,7 +53,7 @@ class UserFriendsController < ApplicationController
 
     private
     def user_friend_params
-        params.require(:user_friend).permit(:friend_id,:user_id,:accepted)
+        params.require(:user_friend).permit(:friend_username,:user_username,:accepted)
     end
 
     def find_user_friend
