@@ -23,7 +23,12 @@ class ProjectsController < ApplicationController
         final_params[:img] = project_params["img"]
         @project = Project.create(final_params)
         if @project.persisted?
-            render :json => @project, include: [:user,:pictures], status: :created
+            render :json => @project, include: [user:{
+                except: [:id,:created_at, :updated_at, :password_digest]
+                },
+            pictures:{
+                except: [:id,:created_at, :updated_at]
+                }], status: :ok
         else
             render :json => { errors: @project.errors }
         end
