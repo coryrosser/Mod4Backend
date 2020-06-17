@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
     def create
         @comment = Comment.create(comment_params)
         if @comment.persisted?
-            render :json => @comment, include: [:project,:user], status: :created
+            render :json => @comment, include: [:commenter,:commented_project], status: :created
         else
             render :json => { errors: @comment.errors }
         end

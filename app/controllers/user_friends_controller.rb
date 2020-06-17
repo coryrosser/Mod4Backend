@@ -1,5 +1,5 @@
 class UserFriendsController < ApplicationController
-    before_action :find_user_friend, only: [:show, :destroy]
+    before_action :find_user_friend, only: [:show]
 
     def index
         @user_friend = UserFriend.all
@@ -52,9 +52,14 @@ class UserFriendsController < ApplicationController
     end
 
     def destroy
-        @user_friend.is_active = false
-        if(@user_friend.save())
-            render :json => { :message => "Succesful." }
+        user_id = User.find_by(username: user_friend_params["user_username"]).id
+        friend_id = User.find_by(username: user_friend_params["friend_username"]).id
+        @user_friend = UserFriend.all.find{|uf| uf.user_id == user_id && uf.friend_id == friend_id}
+        if(@user_friend.persisted?)
+            @user_friend.destroy
+            render :json => { :message => "Succesful." }, status: :ok
+        else
+            render :json => { :error => "User not Found."}, status: :unprocessable_entity
         end
     end
 
