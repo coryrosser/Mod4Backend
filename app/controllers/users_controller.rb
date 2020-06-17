@@ -22,8 +22,7 @@ class UsersController < ApplicationController
     def create
         client = create_client
         final_params = user_params
-        final_params[chat_token] = client.create_token(user_params[:name])
-        byebug
+        final_params[:chat_token] = client.create_token(user_params[:name])
         @user = User.create(final_params)
         token = JWT.encode({ user_id: @user.id }, ENV['HKEY'])
         render :json => { token: token, user:@user.as_json(only: [:name,:username,:bio,:img,:chat_token], include: [:projects,:friends,:comments])}, :status => :ok
@@ -78,6 +77,6 @@ class UsersController < ApplicationController
     end
 
     def create_client
-        StreamChat::Client.new(api_key='5cx2ee96rmr9', api_secret='STREAM_SECRET')
+        StreamChat::Client.new(api_key='5cx2ee96rmr9', api_secret='6r7xzu64u8pjapbxms47bt9qyr8wq8nmesma4sg33jmjfgfqxbj6hy49gv9y6jup')
     end
 end
