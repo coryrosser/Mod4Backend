@@ -53,9 +53,24 @@ class UsersController < ApplicationController
         end
     end
 
+    def token
+        @user = User.find_by(name: token_params[:name])
+        client = create_client
+        @user.chat_token = client.create_token(token_params[:name])
+        if(@user.save)
+            render :json => { :message => "Successful." }
+        else
+            render :json => { :errors => "Failed." }
+        end
+    end
+
     private
     def user_params
         params.require(:user).permit(:name, :username, :bio, :img, :password, :banner_img)
+    end
+
+    def token_params
+        params.require(:user).permit(:name)
     end
 
     def find_user

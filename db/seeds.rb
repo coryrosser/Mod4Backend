@@ -31,6 +31,14 @@ password:"456",
 chat_token: client.create_token('Cory')
 )
 
+u2 = User.create(name:"Jimbo", 
+username:"JimboJambo", 
+bio:"A better bio",
+img:"https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic26.jpg", 
+banner_img:"https://lh3.googleusercontent.com/proxy/vSD_Jh3IvAz8aEWjOflUJESQpo8nht_bxwjWIIT6a8cFA90A3zM80FBsChkiv6SbOa-T9Xz7yWZv26FR82OtzBpJWp7w0ppTrHN9XWoCbsyN86GcKYSANHXlIENgnLzYQ0LTg_HFgfos6ctH",
+password:"456"
+)
+
 p1 = Project.create(name:"Mod1", desc:"A desc", user_id:u1.id, img:"https://www.eschoolnews.com/files/2020/01/coding-science.jpg")
 p2 = Project.create(name:"Mod2", desc:"Another desc", user_id:u2.id, img:"https://www.eschoolnews.com/files/2020/01/coding-science.jpg")
 p3 = Project.create(name:"Mod3", desc:"yet Another desc", user_id:u1.id, img:"https://www.eschoolnews.com/files/2020/01/coding-science.jpg")
