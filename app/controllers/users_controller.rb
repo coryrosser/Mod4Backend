@@ -1,9 +1,10 @@
+require 'stream-chat'
 class UsersController < ApplicationController
     before_action :find_user, only: [:show, :update, :destroy]
 
     def index
         @user = User.all
-        render :json => @user.as_json(only: [:banner_img,:name,:username,:bio,:img], 
+        render :json => @user.as_json(only: [:banner_img,:name,:username,:bio,:img,:chat_token], 
         include: [projects:{
             except: [:id,:created_at, :updated_at]
             },
@@ -19,14 +20,18 @@ class UsersController < ApplicationController
     end
 
     def create
-        @user = User.create(user_params)
+        client = create_client
+        final_params = user_params
+        final_params[chat_token] = client.create_token(user_params[:name])
+        byebug
+        @user = User.create(final_params)
         token = JWT.encode({ user_id: @user.id }, ENV['HKEY'])
-        render :json => { token: token, user:@user.as_json(only: [:name,:username,:bio,:img], include: [:projects,:friends,:comments])}, :status => :ok
+        render :json => { token: token, user:@user.as_json(only: [:name,:username,:bio,:img,:chat_token], include: [:projects,:friends,:comments])}, :status => :ok
     end
 
     def show
         if @user
-            render :json => @user.as_json(only: [:name,:username,:bio,:img])
+            render :json => @user.as_json(only: [:name,:username,:bio,:img,:chat_token])
         else
             render :json => {error: 'User not found'}, status: :not_found
         end
@@ -55,5 +60,9 @@ class UsersController < ApplicationController
 
     def find_user
         @user = User.find_by(id: params[:id])
+    end
+
+    def create_client
+        StreamChat::Client.new(api_key='5cx2ee96rmr9', api_secret='STREAM_SECRET')
     end
 end

@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
       @user = User.find_by(username: session_params[:username])
       if @user && @user.authenticate(session_params[:password])
         token = JWT.encode({ user_id: @user.id }, ENV['HKEY'])
-        render :json => { token: token, user:@user.as_json(only: [:name,:username,:bio,:img], 
+        render :json => { token: token, user:@user.as_json(only: [:name,:username,:bio,:img,:chat_token], 
           include: [
             projects:{
               except: [:id,:created_at, :updated_at]
